@@ -1,0 +1,36 @@
+{
+  "updated_at": "2025-12-24T06:59:03.432Z",
+  "source": "Superrich 1965 (Visual Scrape)",
+  "data": [
+    {
+      "currency": "USD",
+      "buy": "30.95",
+      "sell": "31.10"
+    },
+    {
+      "currency": "EUR",
+      "buy": "36.45",
+      "sell": "36.60"
+    },
+    {
+      "currency": "GBP",
+      "buy": "41.80",
+      "sell": "42.00"
+    },
+    {
+      "currency": "CNY",
+      "buy": "4.45",
+      "sell": "4.50"
+    },
+    {
+      "currency": "AUD",
+      "buy": "20.70",
+      "sell": "20.85"
+    },
+    {
+      "currency": "JPY",
+      "buy": "0.2000",
+      "sell": "0.2025"
+    }
+  ]
+}

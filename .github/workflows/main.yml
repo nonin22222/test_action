@@ -2,7 +2,7 @@ name: Daily Scraper Node
 
 on:
   schedule:
-    - cron: '0 17 * * *' # เที่ยงคืนไทย
+    - cron: '0 17 * * *' # รันทุกเที่ยงคืนไทย
   workflow_dispatch:      # ปุ่มกดรันเอง
 
 permissions:

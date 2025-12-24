@@ -1,0 +1,36 @@
+name: Daily Scraper
+
+on:
+  schedule:
+    # รันตอนเที่ยงคืนไทย (UTC 17:00)
+    - cron: '0 17 * * *'
+  workflow_dispatch: # ปุ่มกดรันเอง (เอาไว้ทดสอบ)
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run Scraper Code
+        run: php scraper.php
+
+      - name: Commit and Push Result
+        run: |
+          git config --global user.name "Bot Updater"
+          git config --global user.email "bot@example.com"
+          git add rates.json
+          git commit -m "Update rates.json" || exit 0
+          git push

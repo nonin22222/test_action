@@ -1,42 +1,46 @@
 <?php
-// ชื่อไฟล์: scraper.php
 
-require __DIR__ . '/vendor/autoload.php'; // บรรทัดนี้สำคัญมาก ห้ามลบ
+require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Panther\Client;
 
-// เริ่มต้น Client
-$client = Client::createChromeClient();
-// หรือถ้าอยากกำหนด Argument เพิ่มเติม
-// $client = Client::createChromeClient(null, ['--no-sandbox', '--disable-dev-shm-usage']);
+// 1. ตั้งค่าการปลอมตัว (User-Agent) ให้เหมือนคนใช้ Windows + Chrome จริงๆ
+$args = [
+    '--window-size=1920,1080',
+    '--disable-gpu',
+    '--no-sandbox',
+    '--disable-dev-shm-usage',
+    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+];
+
+$client = Client::createChromeClient(null, $args);
 
 try {
     echo "Processing...\n";
 
-    // 1. ไปที่เว็บ
+    // 2. เข้าเว็บ
     $crawler = $client->request('GET', 'https://www.superrich1965.com/th');
 
-    // 2. รอโหลด
-    $client->waitFor('.currency-wrapper');
+    // 3. รอโหลด (เพิ่มเวลาเป็น 60 วินาที กันพลาด)
+    // และเปลี่ยนตัวจับ เป็นตัวที่หาง่ายกว่า
+    $client->waitFor('.currency-wrapper', 60);
 
-    // 3. ดึงข้อมูล
+    // 4. ดึงข้อมูล
     $rates = [];
     $crawler->filter('.currency-wrapper')->each(function ($node) use (&$rates) {
         try {
-            $currency = $node->filter('.english-text')->first()->text();
-
-            // หาเรทราคา
+            $currency = $node->filter('.english-text')->count() ? $node->filter('.english-text')->text() : '';
             $rateNodes = $node->filter('.text-main[style*="text-align: end"]');
 
-            if ($rateNodes->count() >= 2) {
-                $buyRate = floatval($rateNodes->eq(0)->text());
-                $sellRate = floatval($rateNodes->eq(1)->text());
+            if ($rateNodes->count() >= 2 && !empty($currency)) {
+                $buy = floatval($rateNodes->eq(0)->text());
+                $sell = floatval($rateNodes->eq(1)->text());
 
-                if ($buyRate > 0) {
+                if ($buy > 0) {
                     $rates[] = [
                         'currency' => trim($currency),
-                        'buy' => $buyRate,
-                        'sell' => $sellRate
+                        'buy' => $buy,
+                        'sell' => $sell
                     ];
                 }
             }
@@ -44,16 +48,20 @@ try {
         }
     });
 
-    // 4. สร้าง Array ผลลัพธ์
+    // เช็คว่าได้ข้อมูลมาจริงไหม
+    if (empty($rates)) {
+        throw new Exception("เข้าเว็บได้ แต่หาข้อมูลไม่เจอ (อาจจะโดนเปลี่ยนหน้าเว็บ)");
+    }
+
     $result = [
         'updated_at' => date('Y-m-d H:i:s'),
         'data' => $rates
     ];
 
-    // *** จุดสำคัญ: บันทึกลงไฟล์ชื่อ rates.json ***
     file_put_contents('rates.json', json_encode($result, JSON_UNESCAPED_UNICODE));
-    echo "✅ Success! Saved to rates.json";
+    echo "✅ Success! Saved " . count($rates) . " currencies to rates.json";
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-    exit(1); // ส่งค่า Error ให้ GitHub รู้
+    // ถ้าพัง ให้ปริ้น Error ออกมาดู
+    echo "❌ Failed: " . $e->getMessage();
+    exit(1);
 }

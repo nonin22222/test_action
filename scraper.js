@@ -1,12 +1,36 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
-async function scrapeSuperrich() {
-  console.log("🚀 [GitHub Actions Mode] เริ่มต้นการดึงข้อมูล...");
+// ฟังก์ชันหลักที่เพิ่มระบบลองใหม่ (Retry)
+async function startScrapingWithRetry() {
+    const MAX_RETRIES = 3; // ให้โอกาสลองใหม่ได้ 3 ครั้ง
 
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        console.log(`\n🏁 ความพยายามครั้งที่ ${attempt} / ${MAX_RETRIES}`);
+        try {
+            const result = await scrapeSuperrich();
+            if (result && result.data.length > 0) {
+                console.log("🎉 สำเร็จ! จบการทำงาน");
+                return; // จบงานถ้าทำสำเร็จ
+            } else {
+                throw new Error("ดึงได้ 0 รายการ (หน้าเว็บอาจโหลดไม่เสร็จ)");
+            }
+        } catch (error) {
+            console.error(`❌ ล้มเหลวรอบที่ ${attempt}: ${error.message}`);
+            if (attempt === MAX_RETRIES) {
+                console.error("😭 ยอมแพ้.. ลองครบทุกรอบแล้วยังไม่ได้");
+                process.exit(1); // แจ้ง GitHub ว่าพัง
+            } else {
+                console.log("🔄 กำลังพัก 5 วินาที ก่อนลองใหม่...");
+                await new Promise(r => setTimeout(r, 5000));
+            }
+        }
+    }
+}
+
+async function scrapeSuperrich() {
   const browser = await puppeteer.launch({
     headless: "new",
-    // ❌ ตัดบรรทัด executablePath ทิ้ง (ให้มันหา Chrome ของ Server เอง)
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -21,31 +45,42 @@ async function scrapeSuperrich() {
 
   try {
     const page = await browser.newPage();
-
-    // ตั้งค่าหน้าจอ
     await page.setViewport({ width: 1920, height: 1080 });
     
-    // User-Agent (ใช้ตัวเดิมที่คุณเทสผ่าน)
+    // User-Agent (ตัวเดิมที่เวิร์ค)
     await page.setUserAgent(
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     );
 
     console.log("🌐 กำลังเข้าสู่เว็บไซต์...");
+    // เพิ่ม timeout เป็น 90 วิ
     await page.goto("https://www.superrich1965.com/th/exchange-rate", {
       waitUntil: "networkidle2",
       timeout: 90000,
     });
 
-    // เพิ่มการขยับเมาส์นิดหน่อยเผื่อ Cloudflare สงสัย
+    // --- เทคนิคแก้ Cloudflare ---
+    // 1. ขยับเมาส์
     try {
-       await page.mouse.move(100, 200);
-       await page.evaluate(() => window.scrollBy(0, 300));
+       await page.mouse.move(100, 100);
+       await page.mouse.move(200, 300);
     } catch(e) {}
 
-    console.log("⏳ รอให้ข้อมูลโหลด (5s)...");
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    // 2. Scroll จอลงมาหน่อย (กระตุ้นให้เนื้อหาโหลด)
+    await page.evaluate(() => window.scrollBy(0, 500));
 
-    // --- ส่วน Logic การดึงข้อมูล (คงเดิมของคุณไว้เป๊ะๆ) ---
+    console.log("⏳ รอโหลดตาราง... (เพิ่มเวลารอเป็น 10s)");
+    // รอแบบระบุตัวตน (รอจนกว่าจะเจอคลาสนี้)
+    try {
+        await page.waitForSelector('.currency-wrapper', { timeout: 15000 });
+    } catch (e) {
+        console.log("⚠️ หา .currency-wrapper ไม่เจอในเวลาที่กำหนด");
+    }
+    
+    // รอแถมให้อีก 3 วิ เพื่อความชัวร์
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // --- เริ่มดึงข้อมูล ---
     const exchangeRates = await page.evaluate(() => {
       const data = [];
       const currencyWrappers = document.querySelectorAll(".currency-wrapper");
@@ -56,18 +91,18 @@ async function scrapeSuperrich() {
 
           const currencyCode = wrapper.querySelector(".english-text")?.textContent.trim();
           
-          // ดึงราคาซื้อ (ค่าแรก)
+          // ดึงราคาซื้อ
           const buyRateElement = wrapper.querySelector(".text-main.text-mobile > div");
           const buyRate = buyRateElement ? parseFloat(buyRateElement.textContent.trim()) : 0;
 
-          // ดึงราคาขาย (ค่าแรก) - Selector เดิมของคุณ
+          // ดึงราคาขาย
           const sellRateElement = wrapper.querySelector('.text-mobile[style*="color: rgb(133, 42, 0)"] > div');
           const sellRate = sellRateElement ? parseFloat(sellRateElement.textContent.trim()) : 0;
 
-          if (currencyCode && buyRate && sellRate) {
+          if (currencyCode && buyRate > 0) {
             data.push({
               currency: currencyCode,
-              buy: buyRate,  // ผมเปลี่ยนชื่อ key ให้สั้นลงเพื่อให้ตรงกับ WordPress เก่า (buy/sell)
+              buy: buyRate,
               sell: sellRate
             });
           }
@@ -77,13 +112,16 @@ async function scrapeSuperrich() {
       return data;
     });
 
-    console.log(`\n📊 พบข้อมูล ${exchangeRates.length} สกุลเงิน`);
+    console.log(`📊 พบข้อมูล ${exchangeRates.length} สกุลเงิน`);
 
     if (exchangeRates.length === 0) {
-        throw new Error("ไม่พบข้อมูล (อาจโดนบล็อก หรือหน้าเว็บเปลี่ยน)");
+        // ลองแคปหน้าจอตอนที่มันหาไม่เจอมาดู
+        await page.screenshot({ path: 'debug_failed.png', fullPage: true });
+        console.log("📸 บันทึกภาพ debug_failed.png แล้ว");
+        return null; // ส่งค่า null กลับไปเพื่อให้ loop รู้ว่าต้อง retry
     }
 
-    // --- บันทึกไฟล์ (เซฟลง rates.json ตรงๆ เลย) ---
+    // --- บันทึกไฟล์ ---
     const jsonData = {
       updated_at: new Date().toISOString(),
       source: "Superrich 1965",
@@ -93,12 +131,14 @@ async function scrapeSuperrich() {
     fs.writeFileSync('rates.json', JSON.stringify(jsonData, null, 2), "utf8");
     console.log(`✅ บันทึกข้อมูลลง rates.json สำเร็จ`);
 
+    return jsonData;
+
   } catch (error) {
-    console.error("❌ เกิดข้อผิดพลาด:", error.message);
-    process.exit(1);
+    throw error; // ส่ง Error ไปให้ฟังก์ชันหลักจัดการ Retry
   } finally {
     await browser.close();
   }
 }
 
-scrapeSuperrich();
+// เริ่มทำงาน
+startScrapingWithRetry();

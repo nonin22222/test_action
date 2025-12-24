@@ -1,15 +1,15 @@
-name: Daily Scraper (Node.js)
+name: Daily Scraper Node
 
 on:
   schedule:
-    - cron: '0 17 * * *'
-  workflow_dispatch:
+    - cron: '0 17 * * *' # เที่ยงคืนไทย
+  workflow_dispatch:      # ปุ่มกดรันเอง
 
 permissions:
   contents: write
 
 jobs:
-  scrape-job:
+  scrape:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code

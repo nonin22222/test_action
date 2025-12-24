@@ -2,11 +2,11 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 
-// เรียกใช้อาวุธลับ (Stealth) เพื่อหลอก Cloudflare/Anti-bot
+// ใช้งาน Stealth Plugin เพื่อทะลุ Cloudflare
 puppeteer.use(StealthPlugin());
 
 (async () => {
-  console.log("🚀 Launching Stealth Browser (Visual Scrape)...");
+  console.log("🚀 Starting Scraper (Single Rate Mode)...");
 
   const browser = await puppeteer.launch({
     headless: "new",
@@ -25,76 +25,91 @@ puppeteer.use(StealthPlugin());
   try {
     const page = await browser.newPage();
     
-    // 1. เข้าหน้าเว็บหลัก (ไม่ใช่ API)
-    console.log("🌍 Navigating to Homepage...");
-    await page.goto('https://www.superrich1965.com/th', { 
-      waitUntil: 'networkidle2', // รอจนกว่าเน็ตจะนิ่ง
-      timeout: 90000 // ให้เวลาโหลดนานหน่อย (เผื่อเน็ต GitHub ช้า)
+    // ตั้งค่าให้เหมือนคนใช้งานจริงที่สุด
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
+    console.log("🌍 Opening website...");
+    // เข้าหน้าเว็บหลัก (ที่มีตารางราคา)
+    await page.goto('https://www.superrich1965.com/th/exchange-rate', { 
+      waitUntil: 'networkidle2',
+      timeout: 60000 
     });
 
-    // 2. รอให้ตารางเรทเงินปรากฏ (ตัววัดใจ)
-    console.log("⏳ Waiting for rate table...");
-    try {
-        await page.waitForSelector('.currency-wrapper', { timeout: 30000 });
-    } catch (e) {
-        // ถ้าหาไม่เจอ ลองแคปหน้าจอมาดู (แต่เราจะไม่ยอมแพ้)
-        console.log("⚠️ Table not found immediately. Taking screenshot...");
-        throw new Error("หาตารางไม่เจอ (อาจจะโดนบล็อก หรือหน้าเว็บเปลี่ยน)");
-    }
+    // รอให้ตารางโหลด (สังเกตจาก class ที่คุณส่งมา)
+    console.log("⏳ Waiting for table...");
+    await page.waitForSelector('.currency-wrapper', { timeout: 30000 });
 
-    // 3. ดูดข้อมูลจากหน้าจอ (DOM Scraping)
-    console.log("👀 Extracting data from screen...");
+    // --- เริ่มดูดข้อมูล ---
+    console.log("👀 Extracting data...");
     
     const rates = await page.evaluate(() => {
       const data = [];
+      const seenCurrencies = new Set(); // ตัวช่วยจำว่าเก็บสกุลเงินนี้ไปหรือยัง
+
+      // หาแถวข้อมูลทั้งหมด
       const rows = document.querySelectorAll('.currency-wrapper');
 
       rows.forEach(row => {
         try {
-          // หาชื่อสกุลเงิน (ภาษาอังกฤษ)
-          const currencyEl = row.querySelector('.english-text');
+          // 1. หาชื่อสกุลเงิน (เช่น USD, JPY)
+          const currencyEl = row.querySelector('.english-text'); // แก้จากโค้ดที่คุณส่งมา
           if (!currencyEl) return;
-          const currency = currencyEl.innerText.trim();
-
-          // หาเรทราคา (ช่องที่มีตัวเลข)
-          // ปกติมันจะมี text-main หลายอัน (Buying, Selling)
-          // เราต้องหาอันที่อยู่ขวาสุด หรือที่มีตัวเลข
-          const rateBoxes = row.querySelectorAll('.text-main');
           
-          // Logic การแกะ: ปกติเว็บนี้ ช่องซ้าย=ซื้อ, ช่องขวา=ขาย
-          // แต่เราต้องกรองเอาเฉพาะที่มีตัวเลข
+          let currency = currencyEl.innerText.trim();
+          
+          // *** หัวใจสำคัญ: ถ้าเก็บสกุลนี้ไปแล้ว ให้ข้ามเลย (เพื่อให้ได้แค่ราคาเดียว) ***
+          if (seenCurrencies.has(currency)) return;
+
+          // 2. หาเรทราคา
+          // จาก HTML ที่คุณส่งมา:
+          // เรทรับซื้อ (Buying) อยู่ใน class "text-main text-mobile"
+          // เรทขาย (Selling) อยู่ใน class "text-mobile" (ตัวที่มีสีส้ม/แดง)
+          
+          const buyEl = row.querySelector('.text-main.text-mobile');
+          
+          // ตัวขายจะหายากหน่อย เพราะ class มันซ้ำๆ เราเลยใช้วิธีหาตัวเลขถัดไป
+          // ปกติมันจะเรียง: [Denom] [Buy] [Sell]
+          // เราเลยกวาด text-mobile ทั้งหมดมาดู
+          const numberBoxes = row.querySelectorAll('.text-mobile');
+          
           let buy = "0";
           let sell = "0";
 
-          // พยายามหาตัวเลขจากกล่อง
-          const numbers = [];
-          rateBoxes.forEach(box => {
-             const txt = box.innerText.trim();
-             if (txt && !isNaN(parseFloat(txt))) {
-                 numbers.push(txt);
-             }
-          });
-
-          // ถ้าเจอตัวเลขอย่างน้อย 2 ตัว (ซื้อ/ขาย)
-          if (numbers.length >= 2) {
-              buy = numbers[numbers.length - 2]; // ตัวรองสุดท้าย
-              sell = numbers[numbers.length - 1]; // ตัวสุดท้าย
+          // แกะตัวเลข (Logic นี้แม่นยำสำหรับโครงสร้างเว็บนี้)
+          if (numberBoxes.length >= 3) {
+             // Index 1 มักจะเป็น Buy (Index 0 คือ Denom 100-50)
+             buy = numberBoxes[1].innerText.trim();
+             // Index 2 มักจะเป็น Sell
+             sell = numberBoxes[2].innerText.trim();
+          } else if (buyEl) {
+             // กรณีสำรอง
+             buy = buyEl.innerText.trim();
           }
 
-          if (currency) {
-            data.push({ currency, buy, sell });
+          // ถ้าได้ข้อมูลครบ ให้บันทึก
+          if (currency && buy !== "0") {
+            data.push({ 
+                currency: currency, 
+                buy: buy, 
+                sell: sell 
+            });
+            seenCurrencies.add(currency); // จดไว้ว่าเก็บ USD ไปแล้ว แถวต่อไปที่เป็น USD ใบย่อยจะไม่เก็บ
           }
-        } catch (err) { }
+
+        } catch (err) { 
+            // ข้ามแถวที่ Error
+        }
       });
+
       return data;
     });
 
-    console.log(`✅ Success! Scraped ${rates.length} currencies.`);
+    console.log(`✅ Success! Extracted ${rates.length} unique currencies.`);
 
-    // 4. บันทึกไฟล์ (สำคัญมาก! ต้องมีไฟล์นี้ Workflow ถึงจะผ่าน)
+    // บันทึกไฟล์
     const output = {
         updated_at: new Date().toISOString(),
-        source: "Superrich 1965 (Visual Scrape)",
+        source: "Superrich 1965 (Single Rate)",
         data: rates
     };
 

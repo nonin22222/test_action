@@ -4,16 +4,17 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Panther\Client;
 
-echo "🚀 Launching Chrome (Headless Stealth Mode)...\n";
+echo "🚀 Starting Scraper (Headless Mode)...\n";
 
-// การตั้งค่า Chrome สำหรับ Server ที่ไม่มีหน้าจอ (GitHub Actions)
+// ตั้งค่า Chrome ให้ทำงานบน Server ไม่มีจอได้ (Headless)
+// และใส่ค่าหลอกว่าเป็นคน (Stealth)
 $args = [
-    '--headless', // 👈 สำคัญมาก! ต้องบอกว่ารันแบบไม่ใช้จอ ไม่งั้น Chrome จะแครช
+    '--headless', // 👈 ตัวสำคัญที่สุด! ต้องมีบรรทัดนี้
     '--no-sandbox',
-    '--disable-dev-shm-usage',
     '--disable-gpu',
-    '--window-size=1920,1080', // หลอกว่าจอใหญ่
-    '--disable-blink-features=AutomationControlled', // ปิดการบอกว่าเป็นบอท
+    '--disable-dev-shm-usage',
+    '--window-size=1920,1080',
+    '--disable-blink-features=AutomationControlled', // ปิดจุดสังเกตบอท
     '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 ];
 
@@ -21,36 +22,34 @@ $args = [
 $client = Client::createChromeClient(null, $args);
 
 try {
-    echo "🌍 Opening website...\n";
+    echo "🌍 Opening Superrich 1965...\n";
     $client->request('GET', 'https://www.superrich1965.com/th');
 
-    // รอโหลดสักพัก
-    echo "⏳ Waiting for content...\n";
-    sleep(10);
+    // รอโหลดข้อมูล (AJAX)
+    echo "⏳ Waiting for data (15s)...\n";
+    sleep(15);
 
-    // แคปหน้าจอส่งมาให้ดูหน่อย (เผื่อยัง Error อีกจะได้เห็นภาพ)
+    // แคปหน้าจอเก็บไว้ดู (เผื่อพังจะได้รู้ว่าเปิดเจอหน้าอะไร)
     $client->takeScreenshot('debug_screen.png');
     echo "📸 Screenshot taken.\n";
 
-    // ค้นหาตาราง (รอสูงสุด 20 วินาที)
-    $crawler = $client->waitFor('.currency-wrapper', 20);
+    // พยายามหาตาราง
+    // หมายเหตุ: ถ้าหน้าเว็บเปลี่ยน Class ตัวนี้อาจจะหาไม่เจอ
+    $crawler = $client->waitFor('.currency-wrapper', 10);
 
     $rates = [];
     $crawler->filter('.currency-wrapper')->each(function ($node) use (&$rates) {
         try {
             $currency = $node->filter('.english-text')->text();
 
-            // ดึงเรทซื้อ-ขาย
+            // หาเรท ซื้อ-ขาย
             $rateNodes = $node->filter('.text-main[style*="text-align: end"]');
 
             if ($rateNodes->count() >= 2) {
-                $buy = $rateNodes->eq(0)->text();
-                $sell = $rateNodes->eq(1)->text();
-
                 $rates[] = [
                     'currency' => trim($currency),
-                    'buy' => $buy,
-                    'sell' => $sell
+                    'buy' => $rateNodes->eq(0)->text(),
+                    'sell' => $rateNodes->eq(1)->text()
                 ];
             }
         } catch (Exception $e) {
@@ -58,7 +57,7 @@ try {
     });
 
     if (empty($rates)) {
-        throw new Exception("เปิดเว็บได้แต่หาตารางไม่เจอ (ดูรูป debug_screen.png)");
+        throw new Exception("เปิดเว็บได้ แต่ดึงข้อมูลไม่เจอ (ดูรูป debug_screen.png)");
     }
 
     // บันทึกไฟล์
@@ -72,7 +71,7 @@ try {
 } catch (Exception $e) {
     echo "❌ Error: " . $e->getMessage() . "\n";
 
-    // ถ้าพัง ให้ลองแคปหน้าจอตอนพังมาด้วย
+    // ถ้าพัง ให้แคปหน้าจอตอนพังไว้ด้วย
     try {
         $client->takeScreenshot('error_screen.png');
     } catch (Exception $ex) {

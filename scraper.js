@@ -1,144 +1,143 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const fs = require('fs');
 
-// ฟังก์ชันหลักที่เพิ่มระบบลองใหม่ (Retry)
-async function startScrapingWithRetry() {
-    const MAX_RETRIES = 3; // ให้โอกาสลองใหม่ได้ 3 ครั้ง
-
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-        console.log(`\n🏁 ความพยายามครั้งที่ ${attempt} / ${MAX_RETRIES}`);
-        try {
-            const result = await scrapeSuperrich();
-            if (result && result.data.length > 0) {
-                console.log("🎉 สำเร็จ! จบการทำงาน");
-                return; // จบงานถ้าทำสำเร็จ
-            } else {
-                throw new Error("ดึงได้ 0 รายการ (หน้าเว็บอาจโหลดไม่เสร็จ)");
-            }
-        } catch (error) {
-            console.error(`❌ ล้มเหลวรอบที่ ${attempt}: ${error.message}`);
-            if (attempt === MAX_RETRIES) {
-                console.error("😭 ยอมแพ้.. ลองครบทุกรอบแล้วยังไม่ได้");
-                process.exit(1); // แจ้ง GitHub ว่าพัง
-            } else {
-                console.log("🔄 กำลังพัก 5 วินาที ก่อนลองใหม่...");
-                await new Promise(r => setTimeout(r, 5000));
-            }
-        }
-    }
-}
+puppeteer.use(StealthPlugin());
 
 async function scrapeSuperrich() {
+  console.log("🚀 [Ghost Mode] เริ่มต้นเจาะ Superrich สีส้ม...");
+
   const browser = await puppeteer.launch({
     headless: "new",
     args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-accelerated-2d-canvas",
-      "--no-first-run",
-      "--no-zygote",
-      "--disable-gpu",
-      "--window-size=1920,1080"
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--disable-gpu',
+      '--window-size=1920,1080',
+      // 👇 1. โค้ดสำคัญ: ปิดฟีเจอร์ที่บอกว่า "ฉันคือบอท"
+      '--disable-blink-features=AutomationControlled' 
     ],
+    // 👇 2. ไม่ให้ Chrome ใส่ default args ที่ระบุตัวตน
+    ignoreDefaultArgs: ['--enable-automation'], 
   });
 
   try {
     const page = await browser.newPage();
-    await page.setViewport({ width: 1920, height: 1080 });
-    
-    // User-Agent (ตัวเดิมที่เวิร์ค)
-    await page.setUserAgent(
-      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    );
 
-    console.log("🌐 กำลังเข้าสู่เว็บไซต์...");
-    // เพิ่ม timeout เป็น 90 วิ
-    await page.goto("https://www.superrich1965.com/th/exchange-rate", {
-      waitUntil: "networkidle2",
-      timeout: 90000,
+    // 👇 3. ลบร่องรอยใน Javascript (สำคัญที่สุด!)
+    await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', {
+            get: () => undefined,
+        });
     });
 
-    // --- เทคนิคแก้ Cloudflare ---
-    // 1. ขยับเมาส์
+    await page.setViewport({ width: 1920, height: 1080 });
+    
+    // ใช้ User-Agent ของคนจริงๆ (Windows 10 Chrome)
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
+    console.log("🌍 กำลังเข้าเว็บ...");
+    
+    // ใช้ waitUntil: 'domcontentloaded' จะเร็วกว่า networkidle
+    await page.goto('https://www.superrich1965.com/th/exchange-rate', { 
+      waitUntil: 'domcontentloaded', 
+      timeout: 120000 
+    });
+
+    // --- ช่วงเวลาตบตา (Human Interaction) ---
+    console.log("🎭 กำลังขยับเมาส์และเลื่อนจอ...");
+    await new Promise(r => setTimeout(r, 5000)); // รอโหลดเบื้องต้น
+    
     try {
-       await page.mouse.move(100, 100);
-       await page.mouse.move(200, 300);
+        await page.mouse.move(100, 100);
+        await page.mouse.move(200, 300);
+        await page.evaluate(() => window.scrollBy(0, 700));
+        await new Promise(r => setTimeout(r, 2000));
+        await page.evaluate(() => window.scrollBy(0, -300));
     } catch(e) {}
 
-    // 2. Scroll จอลงมาหน่อย (กระตุ้นให้เนื้อหาโหลด)
-    await page.evaluate(() => window.scrollBy(0, 500));
-
-    console.log("⏳ รอโหลดตาราง... (เพิ่มเวลารอเป็น 10s)");
-    // รอแบบระบุตัวตน (รอจนกว่าจะเจอคลาสนี้)
+    // รอให้ตารางโผล่มา (เช็ค class .currency-wrapper)
+    console.log("⏳ รอโหลดตารางราคา...");
     try {
-        await page.waitForSelector('.currency-wrapper', { timeout: 15000 });
+        await page.waitForSelector('.currency-wrapper', { timeout: 60000 });
     } catch (e) {
-        console.log("⚠️ หา .currency-wrapper ไม่เจอในเวลาที่กำหนด");
+        console.log("⚠️ หาตารางไม่เจอในเวลาที่กำหนด (จะพยายามแกะต่อ)");
     }
-    
-    // รอแถมให้อีก 3 วิ เพื่อความชัวร์
-    await new Promise(resolve => setTimeout(resolve, 3000));
 
     // --- เริ่มดึงข้อมูล ---
-    const exchangeRates = await page.evaluate(() => {
+    console.log("👀 กำลังอ่านข้อมูล...");
+    
+    const rates = await page.evaluate(() => {
       const data = [];
-      const currencyWrappers = document.querySelectorAll(".currency-wrapper");
+      const seenCurrencies = new Set(); // กันซ้ำ
 
-      currencyWrappers.forEach(wrapper => {
+      // หาแถวทั้งหมด
+      const rows = document.querySelectorAll('.currency-wrapper');
+
+      rows.forEach(row => {
         try {
-          if (wrapper.classList.contains("currency-wrapper-header")) return;
-
-          const currencyCode = wrapper.querySelector(".english-text")?.textContent.trim();
+          // ใช้ innerText ดึงข้อความทั้งบรรทัด (วิธีนี้ทนทานที่สุด)
+          // ตัวอย่างข้อความ: "USD United States 100-50 34.50 34.60"
+          const text = row.innerText;
           
-          // ดึงราคาซื้อ
-          const buyRateElement = wrapper.querySelector(".text-main.text-mobile > div");
-          const buyRate = buyRateElement ? parseFloat(buyRateElement.textContent.trim()) : 0;
+          // 1. หาชื่อสกุลเงิน (ตัวใหญ่ 3 ตัวติดกัน)
+          const currencyMatch = text.match(/([A-Z]{3})/);
+          if (!currencyMatch) return;
+          const currency = currencyMatch[1];
 
-          // ดึงราคาขาย
-          const sellRateElement = wrapper.querySelector('.text-mobile[style*="color: rgb(133, 42, 0)"] > div');
-          const sellRate = sellRateElement ? parseFloat(sellRateElement.textContent.trim()) : 0;
+          // กรองหัวตารางออก
+          if (["SPR", "THB", "ISO", "LKR"].includes(currency)) return;
+          
+          // ถ้าเคยเก็บแล้ว (ใบใหญ่สุด) ให้ข้าม
+          if (seenCurrencies.has(currency)) return;
 
-          if (currencyCode && buyRate > 0) {
-            data.push({
-              currency: currencyCode,
-              buy: buyRate,
-              sell: sellRate
-            });
+          // 2. หาตัวเลข (ทศนิยม)
+          // ดึงตัวเลขทั้งหมดในบรรทัดมาเป็น Array
+          const numbers = text.match(/(\d+\.\d{2,})/g);
+
+          if (numbers && numbers.length >= 2) {
+             // สูตร: ตัวเลข 2 ตัวท้ายสุด คือ [ราคาซื้อ] และ [ราคาขาย] เสมอ
+             const buy = numbers[numbers.length - 2];
+             const sell = numbers[numbers.length - 1];
+
+             if (parseFloat(buy) > 0) {
+                data.push({ currency, buy, sell });
+                seenCurrencies.add(currency);
+             }
           }
-        } catch (error) { }
+        } catch (err) { }
       });
-
       return data;
     });
 
-    console.log(`📊 พบข้อมูล ${exchangeRates.length} สกุลเงิน`);
+    console.log(`📊 เจอข้อมูลทั้งหมด: ${rates.length} สกุลเงิน`);
 
-    if (exchangeRates.length === 0) {
-        // ลองแคปหน้าจอตอนที่มันหาไม่เจอมาดู
-        await page.screenshot({ path: 'debug_failed.png', fullPage: true });
-        console.log("📸 บันทึกภาพ debug_failed.png แล้ว");
-        return null; // ส่งค่า null กลับไปเพื่อให้ loop รู้ว่าต้อง retry
+    if (rates.length === 0) {
+        // ถ้าไม่เจอ ให้ Error แล้วแคปจอมาดู
+        await page.screenshot({ path: 'debug_error.png', fullPage: true });
+        throw new Error("ไม่พบข้อมูลเลย (โดนบล็อก หรือหน้าเว็บขาว)");
     }
 
-    // --- บันทึกไฟล์ ---
-    const jsonData = {
-      updated_at: new Date().toISOString(),
-      source: "Superrich 1965",
-      data: exchangeRates,
+    // บันทึกไฟล์
+    const output = {
+        updated_at: new Date().toISOString(),
+        source: "Superrich 1965 (Orange)",
+        data: rates
     };
 
-    fs.writeFileSync('rates.json', JSON.stringify(jsonData, null, 2), "utf8");
-    console.log(`✅ บันทึกข้อมูลลง rates.json สำเร็จ`);
-
-    return jsonData;
+    fs.writeFileSync('rates.json', JSON.stringify(output, null, 2));
+    console.log("💾 บันทึกไฟล์ rates.json สำเร็จ!");
 
   } catch (error) {
-    throw error; // ส่ง Error ไปให้ฟังก์ชันหลักจัดการ Retry
+    console.error("❌ Error:", error.message);
+    process.exit(1);
   } finally {
     await browser.close();
   }
 }
 
-// เริ่มทำงาน
-startScrapingWithRetry();
+scrapeSuperrich();

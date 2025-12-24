@@ -1,4 +1,4 @@
-name: Daily Scraper
+name: Daily Scraper (Node.js)
 
 on:
   schedule:
@@ -15,32 +15,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          php-version: '8.1'
+          node-version: '18'
 
-      # ติดตั้ง Library ที่จำเป็น (เพราะเราต้องใช้ Panther)
       - name: Install Dependencies
-        run: composer install --prefer-dist --no-progress
+        run: npm install
 
       - name: Run Scraper
-        run: php scraper.php
+        run: node scraper.js
 
-      # ถ้าสำเร็จ ให้ Commit ไฟล์ rates.json
-      - name: Commit Result
-        if: success()
+      - name: Commit and Push Result
         run: |
-          git config --global user.name "Bot"
-          git config --global user.email "bot@bot.com"
+          git config --global user.name "Bot Updater"
+          git config --global user.email "bot@example.com"
           git add rates.json
-          git commit -m "Update rates" || exit 0
+          git commit -m "Update rates.json" || exit 0
           git push
-
-      # *** ทีเด็ด: ถ้าพัง ให้ส่งรูปหน้าจอเว็บมาให้เราดู ***
-      - name: Upload Screenshots (If Failed)
-        if: always() # ทำงานเสมอไม่ว่าจะ Error หรือไม่
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-screenshots
-          path: "*.png"

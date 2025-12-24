@@ -1,81 +1,82 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+// URL ที่คุณเพิ่งแกะได้มา (ตัวนี้แม่นยำสุด)
+$url = "https://www.superrich1965.com/api/exchange-rate-service/v1/external-app-exchange-rate/get";
 
-use Symfony\Component\Panther\Client;
+echo "🚀 Connecting to Superrich API (Spoofing Headers)...\n";
 
-echo "🚀 Starting Scraper (Headless Mode)...\n";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-// ตั้งค่า Chrome ให้ทำงานบน Server ไม่มีจอได้ (Headless)
-// และใส่ค่าหลอกว่าเป็นคน (Stealth)
-$args = [
-    '--headless', // 👈 ตัวสำคัญที่สุด! ต้องมีบรรทัดนี้
-    '--no-sandbox',
-    '--disable-gpu',
-    '--disable-dev-shm-usage',
-    '--window-size=1920,1080',
-    '--disable-blink-features=AutomationControlled', // ปิดจุดสังเกตบอท
-    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-];
+// --- 💡 หัวใจสำคัญ: ชุด Header สำหรับปลอมตัว ---
+// ต้องใส่ให้ครบ เพื่อหลอก Server ว่าเราคือคนกดดูผ่านหน้าเว็บจริงๆ ไม่ใช่ Postman
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Referer: https://www.superrich1965.com/',
+    'Origin: https://www.superrich1965.com',
+    'Accept: application/json, text/plain, */*',
+    'Content-Type: application/json',
+    'apikey: ' // บางทีอาจต้องมีค่าว่างๆ หรือถ้าใน Network tab มี apikey ก็ก๊อปมาใส่ตรงนี้ได้
+]);
 
-// สร้าง Client
-$client = Client::createChromeClient(null, $args);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-try {
-    echo "🌍 Opening Superrich 1965...\n";
-    $client->request('GET', 'https://www.superrich1965.com/th');
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$error = curl_error($ch);
+curl_close($ch);
 
-    // รอโหลดข้อมูล (AJAX)
-    echo "⏳ Waiting for data (15s)...\n";
-    sleep(15);
-
-    // แคปหน้าจอเก็บไว้ดู (เผื่อพังจะได้รู้ว่าเปิดเจอหน้าอะไร)
-    $client->takeScreenshot('debug_screen.png');
-    echo "📸 Screenshot taken.\n";
-
-    // พยายามหาตาราง
-    // หมายเหตุ: ถ้าหน้าเว็บเปลี่ยน Class ตัวนี้อาจจะหาไม่เจอ
-    $crawler = $client->waitFor('.currency-wrapper', 10);
-
-    $rates = [];
-    $crawler->filter('.currency-wrapper')->each(function ($node) use (&$rates) {
-        try {
-            $currency = $node->filter('.english-text')->text();
-
-            // หาเรท ซื้อ-ขาย
-            $rateNodes = $node->filter('.text-main[style*="text-align: end"]');
-
-            if ($rateNodes->count() >= 2) {
-                $rates[] = [
-                    'currency' => trim($currency),
-                    'buy' => $rateNodes->eq(0)->text(),
-                    'sell' => $rateNodes->eq(1)->text()
-                ];
-            }
-        } catch (Exception $e) {
-        }
-    });
-
-    if (empty($rates)) {
-        throw new Exception("เปิดเว็บได้ แต่ดึงข้อมูลไม่เจอ (ดูรูป debug_screen.png)");
-    }
-
-    // บันทึกไฟล์
-    $result = [
-        'updated_at' => date('Y-m-d H:i:s'),
-        'data' => $rates
-    ];
-
-    file_put_contents('rates.json', json_encode($result, JSON_UNESCAPED_UNICODE));
-    echo "✅ Success! Saved " . count($rates) . " currencies.";
-} catch (Exception $e) {
-    echo "❌ Error: " . $e->getMessage() . "\n";
-
-    // ถ้าพัง ให้แคปหน้าจอตอนพังไว้ด้วย
-    try {
-        $client->takeScreenshot('error_screen.png');
-    } catch (Exception $ex) {
-    }
-
+// เช็คผลลัพธ์
+if ($httpCode !== 200) {
+    echo "❌ เข้าไม่ได้ (HTTP $httpCode)\n";
+    echo "Response: " . substr($response, 0, 200) . "...\n";
     exit(1);
 }
+
+$result = json_decode($response, true);
+
+// เช็คโครงสร้าง JSON ตามที่คุณให้มา (ข้อมูลมันซ่อนอยู่ใน 'datas')
+if (empty($result) || !isset($result['data']['datas'])) {
+    echo "❌ ไม่พบข้อมูล (โครงสร้าง JSON อาจเปลี่ยน)\n";
+    // ลองปริ้นโครงสร้างออกมาดูหน่อย
+    print_r($result);
+    exit(1);
+}
+
+$raw_rates = $result['data']['datas'];
+echo "✅ เจาะผ่านสำเร็จ! พบข้อมูล " . count($raw_rates) . " สกุลเงิน\n";
+
+// --- แปลงข้อมูลให้สวยงาม พร้อมใช้ ---
+$final_rates = [];
+
+foreach ($raw_rates as $item) {
+    $currency = $item['currency_code'];
+
+    // หาเรท (API นี้มักจะส่งเรทมาเป็นช่วงๆ เราเลือกตัวแรกหรือตัวที่ใช้บ่อย)
+    // ตรงนี้ต้องดูโครงสร้างข้างใน 'datas' อีกทีว่ามันเก็บตัวเลขที่ field ไหน
+    // สมมติว่ามันชื่อ 'buying' กับ 'selling' (ต้องปรับตามจริงถ้าชื่อ field ไม่ตรง)
+    $buy = $item['buying'] ?? 0;
+    $sell = $item['selling'] ?? 0;
+
+    // กรณีที่มันซ้อน array ลึกเข้าไปอีก เช่น $item['rates'][0]['buying']
+    // (ถ้า Run แล้วเลขเป็น 0 ให้ดูไฟล์ rates.json แล้วมาแก้บรรทัดนี้ครับ)
+
+    $final_rates[] = [
+        'currency' => $currency,
+        'buy' => $buy,
+        'sell' => $sell
+    ];
+}
+
+// บันทึกลงไฟล์
+$output = [
+    'updated_at' => date('Y-m-d H:i:s'),
+    'source' => 'Superrich 1965 (External API)',
+    'data' => $final_rates,
+    'raw_debug' => $result // แถมข้อมูลดิบไว้แกะดูด้วย
+];
+
+file_put_contents('rates.json', json_encode($output, JSON_UNESCAPED_UNICODE));
+echo "💾 Saved to rates.json";

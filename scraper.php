@@ -1,67 +1,68 @@
 <?php
 
-// ไม่ต้องใช้ Library อะไรเลย ใช้ PHP ล้วนๆ เบาและเร็วมาก
-$apiUrl = 'https://superrichthailand.com/api/v1/rates';
+require __DIR__ . '/vendor/autoload.php';
 
-echo "🚀 Connecting to Superrich Thailand API...\n";
+use Symfony\Component\Panther\Client;
+use Facebook\WebDriver\Chrome\ChromeOptions;
 
-// 1. ตั้งค่าการเชื่อมต่อ (ปลอมตัวเป็น Browser นิดหน่อยกันโดนบล็อก)
-$options = [
-    "http" => [
-        "method" => "GET",
-        "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\r\n" .
-            "Accept: application/json\r\n"
-    ]
+echo "🚀 Launching Stealth Chrome...\n";
+
+// ตั้งค่า Chrome ให้เหมือนคนที่สุด (Stealth Mode)
+$args = [
+    '--no-sandbox',
+    '--disable-dev-shm-usage',
+    '--window-size=1920,1080',
+    '--disable-blink-features=AutomationControlled', // 👈 ตัวสำคัญ! ปิดการบอกว่าเป็นบอท
+    '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 ];
 
-$context = stream_context_create($options);
+$client = Client::createChromeClient(null, $args);
 
-// 2. ดึงข้อมูล
-$json = file_get_contents($apiUrl, false, $context);
+try {
+    // 1. เข้าเว็บ
+    echo "opening website...\n";
+    $client->request('GET', 'https://www.superrich1965.com/th');
 
-if ($json === FALSE) {
-    echo "❌ Error: ไม่สามารถดึงข้อมูลได้ (อาจจะโดนบล็อก IP)\n";
-    exit(1);
-}
+    // 2. รอโหลด (รอนานหน่อยเผื่อเน็ตช้า)
+    sleep(10);
 
-// 3. แปลงข้อมูล
-$data = json_decode($json, true);
+    // ** แคปหน้าจอมาดูหน่อย ว่าเปิดเจออะไร **
+    $client->takeScreenshot('debug_screen.png');
+    echo "📸 Screenshot taken (debug_screen.png)\n";
 
-if (empty($data)) {
-    echo "❌ Error: ได้ข้อมูลเปล่า\n";
-    exit(1);
-}
+    // 3. ลองหาตาราง
+    $crawler = $client->waitFor('.currency-wrapper', 15); // รอ element นี้ 15 วิ
 
-echo "✅ ได้ข้อมูลมาแล้ว! กำลังประมวลผล...\n";
+    $rates = [];
+    $crawler->filter('.currency-wrapper')->each(function ($node) use (&$rates) {
+        try {
+            $currency = $node->filter('.english-text')->text();
+            $buy = $node->filter('.text-main')->eq(0)->text(); // ต้องเช็ค index ดีๆ
+            $sell = $node->filter('.text-main')->eq(1)->text();
 
-$formattedRates = [];
-$timestamp = date('Y-m-d H:i:s');
+            $rates[] = [
+                'currency' => trim($currency),
+                'buy' => $buy,
+                'sell' => $sell
+            ];
+        } catch (Exception $e) {
+        }
+    });
 
-// วนลูปเก็บข้อมูล (โครงสร้าง JSON ของสีเขียวจะต่างจากสีส้มเล็กน้อย)
-foreach ($data as $item) {
-    $currency = $item['currencyCode'];
-    // Superrich เขียวมักส่งมาเป็น array ของเรท (รับซื้อ/ขาย)
-    // เราจะดึงเรทล่าสุด
-    $buy = $item['midRate'] ?? 0; // หรือใช้ logic อื่นตามโครงสร้างจริง
-    $sell = $item['midRate'] ?? 0; // API นี้บางทีส่งมาเป็นเรทกลาง ต้องเช็ค key ดีๆ
+    if (empty($rates)) {
+        throw new Exception("หาตารางไม่เจอ (ดูรูป debug_screen.png เพื่อหาสาเหตุ)");
+    }
 
-    // หมายเหตุ: API Superrich เขียว บางทีส่ง key มาเป็น 'rate' array
-    // ขอเขียนแบบดึงพื้นฐานให้ก่อน
-
-    $formattedRates[] = [
-        'currency' => $currency,
-        'name' => $item['currencyName'] ?? '',
-        'buy' => $item['buying'] ?? 0,    // ถ้า key จริงคือ buying
-        'sell' => $item['selling'] ?? 0   // ถ้า key จริงคือ selling
+    // 4. บันทึก
+    $result = [
+        'updated_at' => date('Y-m-d H:i:s'),
+        'data' => $rates
     ];
+    file_put_contents('rates.json', json_encode($result, JSON_UNESCAPED_UNICODE));
+    echo "✅ Success! Saved rates.json";
+} catch (Exception $e) {
+    echo "❌ Error: " . $e->getMessage() . "\n";
+    // แคปหน้าจอตอน Error ไว้ด้วย
+    $client->takeScreenshot('error_screen.png');
+    exit(1);
 }
-
-// 4. บันทึกไฟล์
-$result = [
-    'source' => 'Superrich Thailand (Green)',
-    'updated_at' => $timestamp,
-    'data' => $data // บันทึก Raw Data ไปเลยชัวร์สุด เอาไปแกะต่อใน WordPress
-];
-
-file_put_contents('rates.json', json_encode($result, JSON_UNESCAPED_UNICODE));
-echo "✅ Success! Saved to rates.json";

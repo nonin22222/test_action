@@ -2,9 +2,8 @@ name: Daily Scraper
 
 on:
   schedule:
-    # รันตอนเที่ยงคืนไทย (UTC 17:00)
     - cron: '0 17 * * *'
-  workflow_dispatch: # ปุ่มกดรันเอง (เอาไว้ทดสอบ)
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,16 +20,27 @@ jobs:
         with:
           php-version: '8.1'
 
+      # ติดตั้ง Library ที่จำเป็น (เพราะเราต้องใช้ Panther)
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run Scraper Code
+      - name: Run Scraper
         run: php scraper.php
 
-      - name: Commit and Push Result
+      # ถ้าสำเร็จ ให้ Commit ไฟล์ rates.json
+      - name: Commit Result
+        if: success()
         run: |
-          git config --global user.name "Bot Updater"
-          git config --global user.email "bot@example.com"
+          git config --global user.name "Bot"
+          git config --global user.email "bot@bot.com"
           git add rates.json
-          git commit -m "Update rates.json" || exit 0
+          git commit -m "Update rates" || exit 0
           git push
+
+      # *** ทีเด็ด: ถ้าพัง ให้ส่งรูปหน้าจอเว็บมาให้เราดู ***
+      - name: Upload Screenshots (If Failed)
+        if: always() # ทำงานเสมอไม่ว่าจะ Error หรือไม่
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: "*.png"

@@ -32,4 +32,6 @@ jobs:
           git config --global user.email "bot@example.com"
           git add rates.json
           git commit -m "Update rates.json" || exit 0
+          # 👇 เพิ่มบรรทัดนี้: ดึงไฟล์ล่าสุดลงมาก่อน เพื่อแก้ปัญหาชนกัน
+          git pull --rebase origin main
           git push

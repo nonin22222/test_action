@@ -1,5 +1,5 @@
 {
-  "updated_at": "2025-12-25T17:06:12.380Z",
+  "updated_at": "2025-12-26T17:05:58.239Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
@@ -19,8 +19,8 @@
     },
     {
       "currency": "CHF",
-      "buy": "39.10",
-      "sell": "39.35"
+      "buy": "39.05",
+      "sell": "39.30"
     },
     {
       "currency": "AUD",
@@ -29,13 +29,13 @@
     },
     {
       "currency": "CNY",
-      "buy": "4.410",
-      "sell": "4.410"
+      "buy": "4.400",
+      "sell": "4.400"
     },
     {
       "currency": "JPY",
-      "buy": "0.1995",
-      "sell": "0.2025"
+      "buy": "0.1990",
+      "sell": "0.2020"
     },
     {
       "currency": "MYR",
@@ -44,18 +44,18 @@
     },
     {
       "currency": "SGD",
-      "buy": "26.75",
-      "sell": "24.25"
+      "buy": "26.65",
+      "sell": "24.20"
     },
     {
       "currency": "HKD",
       "buy": "3.970",
-      "sell": "4.030"
+      "sell": "4.040"
     },
     {
       "currency": "CAD",
       "buy": "22.45",
-      "sell": "22.70"
+      "sell": "22.75"
     },
     {
       "currency": "TWD",
@@ -64,8 +64,8 @@
     },
     {
       "currency": "KRW",
-      "buy": "0.0216",
-      "sell": "0.0206"
+      "buy": "0.0217",
+      "sell": "0.0207"
     },
     {
       "currency": "PHP",
@@ -74,8 +74,8 @@
     },
     {
       "currency": "NZD",
-      "buy": "17.90",
-      "sell": "18.15"
+      "buy": "17.85",
+      "sell": "18.10"
     },
     {
       "currency": "ZAR",
@@ -89,7 +89,7 @@
     },
     {
       "currency": "INR",
-      "buy": "0.3050",
+      "buy": "0.3000",
       "sell": "0.3450"
     },
     {
@@ -129,7 +129,7 @@
     },
     {
       "currency": "JOD",
-      "buy": "43.10",
+      "buy": "42.40",
       "sell": "44.40"
     },
     {
@@ -154,7 +154,7 @@
     },
     {
       "currency": "TRY",
-      "buy": "0.63",
+      "buy": "0.68",
       "sell": "0.78"
     },
     {

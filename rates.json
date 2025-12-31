@@ -1,11 +1,11 @@
 {
-  "updated_at": "2025-12-30T17:07:48.717Z",
+  "updated_at": "2025-12-31T17:06:09.010Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.42",
-      "sell": "31.32"
+      "buy": "31.40",
+      "sell": "31.30"
     },
     {
       "currency": "EUR",
@@ -14,8 +14,8 @@
     },
     {
       "currency": "GBP",
-      "buy": "42.60",
-      "sell": "42.60"
+      "buy": "42.55",
+      "sell": "42.55"
     },
     {
       "currency": "CHF",
@@ -25,7 +25,7 @@
     {
       "currency": "AUD",
       "buy": "20.85",
-      "sell": "21.10"
+      "sell": "21.05"
     },
     {
       "currency": "CNY",
@@ -34,18 +34,18 @@
     },
     {
       "currency": "JPY",
-      "buy": "0.2010",
+      "buy": "0.2000",
       "sell": "0.2030"
     },
     {
       "currency": "MYR",
-      "buy": "7.750",
-      "sell": "7.650"
+      "buy": "7.740",
+      "sell": "7.640"
     },
     {
       "currency": "SGD",
       "buy": "26.40",
-      "sell": "24.60"
+      "sell": "24.55"
     },
     {
       "currency": "HKD",
@@ -59,8 +59,8 @@
     },
     {
       "currency": "TWD",
-      "buy": "1.005",
-      "sell": "1.005"
+      "buy": "1.000",
+      "sell": "1.000"
     },
     {
       "currency": "KRW",

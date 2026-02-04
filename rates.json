@@ -1,61 +1,61 @@
 {
-  "updated_at": "2026-02-03T17:22:58.022Z",
+  "updated_at": "2026-02-04T17:21:08.915Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.45",
-      "sell": "31.35"
+      "buy": "31.55",
+      "sell": "31.45"
     },
     {
       "currency": "EUR",
-      "buy": "37.10",
-      "sell": "37.10"
+      "buy": "37.35",
+      "sell": "37.35"
     },
     {
       "currency": "GBP",
-      "buy": "43.00",
-      "sell": "43.00"
+      "buy": "43.35",
+      "sell": "43.35"
     },
     {
       "currency": "CHF",
-      "buy": "40.20",
-      "sell": "40.40"
+      "buy": "40.45",
+      "sell": "40.65"
     },
     {
       "currency": "AUD",
-      "buy": "21.85",
-      "sell": "22.10"
+      "buy": "21.95",
+      "sell": "22.20"
     },
     {
       "currency": "CNY",
-      "buy": "4.440",
-      "sell": "4.440"
+      "buy": "4.450",
+      "sell": "4.450"
     },
     {
       "currency": "JPY",
       "buy": "0.2005",
-      "sell": "0.2030"
+      "sell": "0.2025"
     },
     {
       "currency": "MYR",
-      "buy": "7.960",
-      "sell": "7.860"
+      "buy": "8.010",
+      "sell": "7.910"
     },
     {
       "currency": "SGD",
-      "buy": "27.15",
-      "sell": "24.75"
+      "buy": "27.30",
+      "sell": "24.85"
     },
     {
       "currency": "HKD",
-      "buy": "3.970",
-      "sell": "4.050"
+      "buy": "4.000",
+      "sell": "4.060"
     },
     {
       "currency": "CAD",
-      "buy": "22.75",
-      "sell": "23.00"
+      "buy": "22.95",
+      "sell": "23.15"
     },
     {
       "currency": "TWD",
@@ -74,8 +74,8 @@
     },
     {
       "currency": "NZD",
-      "buy": "18.75",
-      "sell": "19.00"
+      "buy": "18.85",
+      "sell": "19.05"
     },
     {
       "currency": "ZAR",
@@ -90,11 +90,11 @@
     {
       "currency": "INR",
       "buy": "0.3150",
-      "sell": "0.3500"
+      "sell": "0.3600"
     },
     {
       "currency": "IDR",
-      "buy": "0.00177",
+      "buy": "0.00176",
       "sell": "0.00187"
     },
     {
@@ -134,8 +134,8 @@
     },
     {
       "currency": "RUB",
-      "buy": "0.3550",
-      "sell": "0.4050"
+      "buy": "0.3600",
+      "sell": "0.4100"
     },
     {
       "currency": "SCO",
@@ -144,7 +144,7 @@
     },
     {
       "currency": "MOP",
-      "buy": "3.80",
+      "buy": "3.82",
       "sell": "4.00"
     },
     {

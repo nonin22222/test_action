@@ -1,30 +1,30 @@
 {
-  "updated_at": "2026-02-10T17:26:51.703Z",
+  "updated_at": "2026-02-11T17:25:43.571Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.10",
-      "sell": "31.00"
+      "buy": "31.03",
+      "sell": "30.93"
     },
     {
       "currency": "EUR",
-      "buy": "37.10",
-      "sell": "37.10"
+      "buy": "37.05",
+      "sell": "37.05"
     },
     {
       "currency": "GBP",
-      "buy": "42.60",
-      "sell": "42.60"
+      "buy": "42.50",
+      "sell": "42.50"
     },
     {
       "currency": "CHF",
-      "buy": "40.35",
-      "sell": "40.60"
+      "buy": "40.30",
+      "sell": "40.55"
     },
     {
       "currency": "AUD",
-      "buy": "21.85",
+      "buy": "21.90",
       "sell": "22.10"
     },
     {
@@ -34,33 +34,33 @@
     },
     {
       "currency": "JPY",
-      "buy": "0.1995",
-      "sell": "0.2025"
+      "buy": "0.2015",
+      "sell": "0.2035"
     },
     {
       "currency": "MYR",
-      "buy": "7.950",
-      "sell": "7.850"
+      "buy": "7.940",
+      "sell": "7.840"
     },
     {
       "currency": "SGD",
-      "buy": "27.10",
-      "sell": "24.60"
+      "buy": "27.20",
+      "sell": "24.65"
     },
     {
       "currency": "HKD",
-      "buy": "3.960",
-      "sell": "4.020"
+      "buy": "3.940",
+      "sell": "4.010"
     },
     {
       "currency": "CAD",
       "buy": "22.70",
-      "sell": "22.95"
+      "sell": "23.00"
     },
     {
       "currency": "TWD",
-      "buy": "0.985",
-      "sell": "0.985"
+      "buy": "0.980",
+      "sell": "0.980"
     },
     {
       "currency": "KRW",
@@ -79,12 +79,12 @@
     },
     {
       "currency": "ZAR",
-      "buy": "1.87",
+      "buy": "1.88",
       "sell": "1.95"
     },
     {
       "currency": "VND",
-      "buy": "0.00114",
+      "buy": "0.00115",
       "sell": "0.00123"
     },
     {

@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-02-12T17:25:54.832Z",
+  "updated_at": "2026-02-14T17:10:04.470Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "30.95",
-      "sell": "30.85"
+      "buy": "30.99",
+      "sell": "30.89"
     },
     {
       "currency": "EUR",
-      "buy": "36.85",
-      "sell": "36.85"
+      "buy": "36.80",
+      "sell": "36.80"
     },
     {
       "currency": "GBP",
@@ -20,22 +20,22 @@
     {
       "currency": "CHF",
       "buy": "40.00",
-      "sell": "40.25"
+      "sell": "40.30"
     },
     {
       "currency": "AUD",
-      "buy": "21.80",
-      "sell": "22.05"
+      "buy": "21.65",
+      "sell": "21.95"
     },
     {
       "currency": "CNY",
-      "buy": "4.430",
-      "sell": "4.430"
+      "buy": "4.410",
+      "sell": "4.410"
     },
     {
       "currency": "JPY",
-      "buy": "0.2005",
-      "sell": "0.2035"
+      "buy": "0.2000",
+      "sell": "0.2030"
     },
     {
       "currency": "MYR",
@@ -44,18 +44,18 @@
     },
     {
       "currency": "SGD",
-      "buy": "27.10",
-      "sell": "24.60"
+      "buy": "26.95",
+      "sell": "24.55"
     },
     {
       "currency": "HKD",
       "buy": "3.920",
-      "sell": "4.010"
+      "sell": "4.000"
     },
     {
       "currency": "CAD",
-      "buy": "22.55",
-      "sell": "22.90"
+      "buy": "22.40",
+      "sell": "22.70"
     },
     {
       "currency": "TWD",
@@ -64,23 +64,23 @@
     },
     {
       "currency": "KRW",
-      "buy": "0.0217",
-      "sell": "0.0207"
+      "buy": "0.0219",
+      "sell": "0.0209"
     },
     {
       "currency": "PHP",
-      "buy": "0.505",
+      "buy": "0.500",
       "sell": "0.540"
     },
     {
       "currency": "NZD",
-      "buy": "18.60",
-      "sell": "18.80"
+      "buy": "18.40",
+      "sell": "18.70"
     },
     {
       "currency": "ZAR",
-      "buy": "1.88",
-      "sell": "1.95"
+      "buy": "1.85",
+      "sell": "1.94"
     },
     {
       "currency": "VND",
@@ -89,7 +89,7 @@
     },
     {
       "currency": "INR",
-      "buy": "0.3150",
+      "buy": "0.3300",
       "sell": "0.3500"
     },
     {
@@ -104,28 +104,28 @@
     },
     {
       "currency": "AED",
-      "buy": "8.20",
-      "sell": "8.55"
+      "buy": "8.15",
+      "sell": "8.45"
     },
     {
       "currency": "QAR",
-      "buy": "8.20",
-      "sell": "8.55"
+      "buy": "8.15",
+      "sell": "8.45"
     },
     {
       "currency": "OMR",
-      "buy": "77.70",
-      "sell": "80.10"
+      "buy": "77.80",
+      "sell": "79.80"
     },
     {
       "currency": "BHD",
       "buy": "79.50",
-      "sell": "81.60"
+      "sell": "81.50"
     },
     {
       "currency": "KWD",
-      "buy": "98.20",
-      "sell": "100.20"
+      "buy": "98.00",
+      "sell": "100.00"
     },
     {
       "currency": "JOD",
@@ -150,7 +150,7 @@
     {
       "currency": "BND",
       "buy": "24.30",
-      "sell": "24.70"
+      "sell": "24.55"
     },
     {
       "currency": "TRY",

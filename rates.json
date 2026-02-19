@@ -1,61 +1,61 @@
 {
-  "updated_at": "2026-02-18T17:27:27.159Z",
+  "updated_at": "2026-02-19T17:23:18.571Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.22",
-      "sell": "31.12"
+      "buy": "31.10",
+      "sell": "31.00"
     },
     {
       "currency": "EUR",
-      "buy": "37.05",
-      "sell": "37.05"
+      "buy": "36.80",
+      "sell": "36.80"
     },
     {
       "currency": "GBP",
-      "buy": "42.35",
-      "sell": "42.35"
+      "buy": "42.05",
+      "sell": "42.05"
     },
     {
       "currency": "CHF",
-      "buy": "40.25",
-      "sell": "40.50"
+      "buy": "40.00",
+      "sell": "40.25"
     },
     {
       "currency": "AUD",
-      "buy": "21.90",
-      "sell": "22.10"
+      "buy": "21.75",
+      "sell": "22.00"
     },
     {
       "currency": "CNY",
-      "buy": "4.440",
-      "sell": "4.440"
+      "buy": "4.420",
+      "sell": "4.420"
     },
     {
       "currency": "JPY",
-      "buy": "0.2020",
-      "sell": "0.2040"
+      "buy": "0.1995",
+      "sell": "0.2015"
     },
     {
       "currency": "MYR",
-      "buy": "7.980",
-      "sell": "7.880"
+      "buy": "7.950",
+      "sell": "7.850"
     },
     {
       "currency": "SGD",
-      "buy": "26.95",
-      "sell": "24.70"
+      "buy": "26.90",
+      "sell": "24.60"
     },
     {
       "currency": "HKD",
-      "buy": "3.940",
+      "buy": "3.950",
       "sell": "4.020"
     },
     {
       "currency": "CAD",
-      "buy": "22.65",
-      "sell": "22.90"
+      "buy": "22.50",
+      "sell": "22.80"
     },
     {
       "currency": "TWD",
@@ -64,8 +64,8 @@
     },
     {
       "currency": "KRW",
-      "buy": "0.0218",
-      "sell": "0.0208"
+      "buy": "0.0216",
+      "sell": "0.0206"
     },
     {
       "currency": "PHP",
@@ -74,8 +74,8 @@
     },
     {
       "currency": "NZD",
-      "buy": "18.55",
-      "sell": "18.80"
+      "buy": "18.45",
+      "sell": "18.70"
     },
     {
       "currency": "ZAR",
@@ -84,8 +84,8 @@
     },
     {
       "currency": "VND",
-      "buy": "0.00115",
-      "sell": "0.00123"
+      "buy": "0.00114",
+      "sell": "0.00122"
     },
     {
       "currency": "INR",
@@ -149,7 +149,7 @@
     },
     {
       "currency": "BND",
-      "buy": "24.40",
+      "buy": "24.45",
       "sell": "24.75"
     },
     {

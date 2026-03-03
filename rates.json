@@ -1,31 +1,31 @@
 {
-  "updated_at": "2026-03-02T17:20:01.604Z",
+  "updated_at": "2026-03-03T17:19:36.140Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.37",
-      "sell": "31.27"
+      "buy": "31.60",
+      "sell": "31.50"
     },
     {
       "currency": "EUR",
-      "buy": "36.90",
-      "sell": "36.90"
+      "buy": "36.75",
+      "sell": "36.75"
     },
     {
       "currency": "GBP",
-      "buy": "42.00",
-      "sell": "42.00"
+      "buy": "42.10",
+      "sell": "42.10"
     },
     {
       "currency": "CHF",
-      "buy": "40.40",
-      "sell": "40.65"
+      "buy": "40.00",
+      "sell": "40.30"
     },
     {
       "currency": "AUD",
-      "buy": "22.00",
-      "sell": "22.25"
+      "buy": "22.05",
+      "sell": "22.30"
     },
     {
       "currency": "CNY",
@@ -34,28 +34,28 @@
     },
     {
       "currency": "JPY",
-      "buy": "0.2000",
-      "sell": "0.2025"
+      "buy": "0.1995",
+      "sell": "0.2020"
     },
     {
       "currency": "MYR",
-      "buy": "7.980",
-      "sell": "7.880"
+      "buy": "7.990",
+      "sell": "7.890"
     },
     {
       "currency": "SGD",
-      "buy": "27.20",
+      "buy": "27.30",
       "sell": "24.70"
     },
     {
       "currency": "HKD",
-      "buy": "3.970",
-      "sell": "4.040"
+      "buy": "3.990",
+      "sell": "4.050"
     },
     {
       "currency": "CAD",
-      "buy": "22.70",
-      "sell": "22.95"
+      "buy": "22.75",
+      "sell": "23.00"
     },
     {
       "currency": "TWD",
@@ -74,8 +74,8 @@
     },
     {
       "currency": "NZD",
-      "buy": "18.50",
-      "sell": "18.75"
+      "buy": "18.45",
+      "sell": "18.70"
     },
     {
       "currency": "ZAR",
@@ -134,7 +134,7 @@
     },
     {
       "currency": "RUB",
-      "buy": "0.3600",
+      "buy": "0.3550",
       "sell": "0.4000"
     },
     {
@@ -149,7 +149,7 @@
     },
     {
       "currency": "BND",
-      "buy": "24.30",
+      "buy": "24.35",
       "sell": "24.60"
     },
     {

@@ -1,31 +1,31 @@
 {
-  "updated_at": "2026-03-04T17:17:53.858Z",
+  "updated_at": "2026-03-05T17:45:35.225Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.35",
-      "sell": "31.25"
+      "buy": "31.57",
+      "sell": "31.47"
     },
     {
       "currency": "EUR",
-      "buy": "36.45",
-      "sell": "36.45"
+      "buy": "36.70",
+      "sell": "36.70"
     },
     {
       "currency": "GBP",
-      "buy": "41.95",
-      "sell": "41.95"
+      "buy": "42.15",
+      "sell": "42.15"
     },
     {
       "currency": "CHF",
-      "buy": "39.75",
-      "sell": "40.10"
+      "buy": "40.20",
+      "sell": "40.45"
     },
     {
       "currency": "AUD",
-      "buy": "21.85",
-      "sell": "22.15"
+      "buy": "22.05",
+      "sell": "22.30"
     },
     {
       "currency": "CNY",
@@ -34,28 +34,28 @@
     },
     {
       "currency": "JPY",
-      "buy": "0.1995",
+      "buy": "0.2005",
       "sell": "0.2025"
     },
     {
       "currency": "MYR",
-      "buy": "7.980",
-      "sell": "7.880"
+      "buy": "8.010",
+      "sell": "7.910"
     },
     {
       "currency": "SGD",
-      "buy": "27.25",
-      "sell": "24.65"
+      "buy": "27.40",
+      "sell": "24.75"
     },
     {
       "currency": "HKD",
-      "buy": "3.990",
-      "sell": "4.050"
+      "buy": "4.000",
+      "sell": "4.070"
     },
     {
       "currency": "CAD",
-      "buy": "22.70",
-      "sell": "23.00"
+      "buy": "22.90",
+      "sell": "23.15"
     },
     {
       "currency": "TWD",
@@ -70,12 +70,12 @@
     {
       "currency": "PHP",
       "buy": "0.505",
-      "sell": "0.545"
+      "sell": "0.535"
     },
     {
       "currency": "NZD",
-      "buy": "18.30",
-      "sell": "18.60"
+      "buy": "18.50",
+      "sell": "18.70"
     },
     {
       "currency": "ZAR",
@@ -150,12 +150,12 @@
     {
       "currency": "BND",
       "buy": "24.35",
-      "sell": "24.60"
+      "sell": "24.65"
     },
     {
       "currency": "TRY",
-      "buy": "0.67",
-      "sell": "0.76"
+      "buy": "0.66",
+      "sell": "0.75"
     },
     {
       "currency": "MMK",

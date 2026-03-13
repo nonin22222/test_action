@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-03-12T17:22:14.272Z",
+  "updated_at": "2026-03-13T17:15:59.289Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "31.78",
-      "sell": "31.68"
+      "buy": "32.22",
+      "sell": "32.12"
     },
     {
       "currency": "EUR",
-      "buy": "36.75",
-      "sell": "36.75"
+      "buy": "36.95",
+      "sell": "36.95"
     },
     {
       "currency": "GBP",
-      "buy": "42.55",
-      "sell": "42.55"
+      "buy": "42.85",
+      "sell": "42.85"
     },
     {
       "currency": "CHF",
-      "buy": "40.45",
-      "sell": "40.70"
+      "buy": "40.60",
+      "sell": "40.85"
     },
     {
       "currency": "AUD",
@@ -29,38 +29,38 @@
     },
     {
       "currency": "CNY",
-      "buy": "4.560",
-      "sell": "4.560"
+      "buy": "4.590",
+      "sell": "4.590"
     },
     {
       "currency": "JPY",
-      "buy": "0.2000",
-      "sell": "0.2025"
+      "buy": "0.2010",
+      "sell": "0.2030"
     },
     {
       "currency": "MYR",
-      "buy": "8.080",
-      "sell": "7.980"
+      "buy": "8.170",
+      "sell": "8.070"
     },
     {
       "currency": "SGD",
-      "buy": "27.85",
-      "sell": "24.95"
+      "buy": "28.00",
+      "sell": "25.15"
     },
     {
       "currency": "HKD",
-      "buy": "4.020",
-      "sell": "4.080"
+      "buy": "4.060",
+      "sell": "4.120"
     },
     {
       "currency": "CAD",
-      "buy": "23.15",
-      "sell": "23.40"
+      "buy": "23.35",
+      "sell": "23.60"
     },
     {
       "currency": "TWD",
-      "buy": "1.000",
-      "sell": "1.000"
+      "buy": "1.015",
+      "sell": "1.015"
     },
     {
       "currency": "KRW",
@@ -104,8 +104,8 @@
     },
     {
       "currency": "AED",
-      "buy": "7.95",
-      "sell": "8.40"
+      "buy": "8.10",
+      "sell": "8.60"
     },
     {
       "currency": "QAR",
@@ -149,8 +149,8 @@
     },
     {
       "currency": "BND",
-      "buy": "24.65",
-      "sell": "24.95"
+      "buy": "24.75",
+      "sell": "25.10"
     },
     {
       "currency": "TRY",

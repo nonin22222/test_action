@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-03-20T17:17:27.459Z",
+  "updated_at": "2026-03-21T17:09:22.406Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.68",
-      "sell": "32.58"
+      "buy": "32.69",
+      "sell": "32.59"
     },
     {
       "currency": "EUR",
@@ -14,48 +14,48 @@
     },
     {
       "currency": "GBP",
-      "buy": "43.75",
-      "sell": "43.75"
+      "buy": "43.70",
+      "sell": "43.70"
     },
     {
       "currency": "CHF",
-      "buy": "41.10",
-      "sell": "41.40"
+      "buy": "41.15",
+      "sell": "41.45"
     },
     {
       "currency": "AUD",
-      "buy": "22.90",
-      "sell": "23.10"
+      "buy": "22.70",
+      "sell": "23.00"
     },
     {
       "currency": "CNY",
-      "buy": "4.660",
-      "sell": "4.660"
+      "buy": "4.650",
+      "sell": "4.650"
     },
     {
       "currency": "JPY",
-      "buy": "0.2055",
+      "buy": "0.2045",
       "sell": "0.2075"
     },
     {
       "currency": "MYR",
-      "buy": "8.250",
-      "sell": "8.150"
+      "buy": "8.240",
+      "sell": "8.140"
     },
     {
       "currency": "SGD",
       "buy": "28.10",
-      "sell": "25.50"
+      "sell": "25.55"
     },
     {
       "currency": "HKD",
-      "buy": "4.120",
-      "sell": "4.180"
+      "buy": "4.110",
+      "sell": "4.190"
     },
     {
       "currency": "CAD",
-      "buy": "23.55",
-      "sell": "23.75"
+      "buy": "23.60",
+      "sell": "23.85"
     },
     {
       "currency": "TWD",
@@ -69,17 +69,17 @@
     },
     {
       "currency": "PHP",
-      "buy": "0.505",
+      "buy": "0.485",
       "sell": "0.540"
     },
     {
       "currency": "NZD",
-      "buy": "18.95",
-      "sell": "19.20"
+      "buy": "18.85",
+      "sell": "19.10"
     },
     {
       "currency": "ZAR",
-      "buy": "1.85",
+      "buy": "1.83",
       "sell": "1.92"
     },
     {
@@ -94,7 +94,7 @@
     },
     {
       "currency": "IDR",
-      "buy": "0.00183",
+      "buy": "0.00185",
       "sell": "0.00192"
     },
     {
@@ -149,8 +149,8 @@
     },
     {
       "currency": "BND",
-      "buy": "25.25",
-      "sell": "25.55"
+      "buy": "25.20",
+      "sell": "25.50"
     },
     {
       "currency": "TRY",

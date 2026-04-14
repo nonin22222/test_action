@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-04-13T17:27:22.004Z",
+  "updated_at": "2026-04-14T17:29:30.298Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.15",
-      "sell": "32.05"
+      "buy": "32.10",
+      "sell": "32.00"
     },
     {
       "currency": "EUR",
@@ -19,8 +19,8 @@
     },
     {
       "currency": "CHF",
-      "buy": "40.40",
-      "sell": "40.70"
+      "buy": "40.50",
+      "sell": "40.80"
     },
     {
       "currency": "AUD",
@@ -39,23 +39,23 @@
     },
     {
       "currency": "MYR",
-      "buy": "8.100",
-      "sell": "8.000"
+      "buy": "8.090",
+      "sell": "7.990"
     },
     {
       "currency": "SGD",
       "buy": "28.20",
-      "sell": "25.25"
+      "sell": "25.20"
     },
     {
       "currency": "HKD",
-      "buy": "4.070",
-      "sell": "4.120"
+      "buy": "4.080",
+      "sell": "4.110"
     },
     {
       "currency": "CAD",
-      "buy": "23.00",
-      "sell": "23.20"
+      "buy": "23.05",
+      "sell": "23.25"
     },
     {
       "currency": "TWD",
@@ -69,12 +69,12 @@
     },
     {
       "currency": "PHP",
-      "buy": "0.490",
+      "buy": "0.500",
       "sell": "0.530"
     },
     {
       "currency": "NZD",
-      "buy": "18.40",
+      "buy": "18.45",
       "sell": "18.65"
     },
     {
@@ -90,7 +90,7 @@
     {
       "currency": "INR",
       "buy": "0.3300",
-      "sell": "0.3700"
+      "sell": "0.3600"
     },
     {
       "currency": "IDR",

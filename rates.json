@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-04-14T17:29:30.298Z",
+  "updated_at": "2026-04-15T17:27:48.945Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.10",
-      "sell": "32.00"
+      "buy": "32.00",
+      "sell": "31.90"
     },
     {
       "currency": "EUR",
@@ -14,18 +14,18 @@
     },
     {
       "currency": "GBP",
-      "buy": "43.25",
-      "sell": "43.25"
+      "buy": "43.30",
+      "sell": "43.30"
     },
     {
       "currency": "CHF",
-      "buy": "40.50",
-      "sell": "40.80"
+      "buy": "40.60",
+      "sell": "40.85"
     },
     {
       "currency": "AUD",
-      "buy": "22.40",
-      "sell": "22.65"
+      "buy": "22.55",
+      "sell": "22.70"
     },
     {
       "currency": "CNY",
@@ -34,8 +34,8 @@
     },
     {
       "currency": "JPY",
-      "buy": "0.2015",
-      "sell": "0.2050"
+      "buy": "0.2010",
+      "sell": "0.2045"
     },
     {
       "currency": "MYR",
@@ -44,7 +44,7 @@
     },
     {
       "currency": "SGD",
-      "buy": "28.20",
+      "buy": "28.15",
       "sell": "25.20"
     },
     {
@@ -64,18 +64,18 @@
     },
     {
       "currency": "KRW",
-      "buy": "0.0225",
-      "sell": "0.0215"
+      "buy": "0.0224",
+      "sell": "0.0214"
     },
     {
       "currency": "PHP",
       "buy": "0.500",
-      "sell": "0.530"
+      "sell": "0.525"
     },
     {
       "currency": "NZD",
-      "buy": "18.45",
-      "sell": "18.65"
+      "buy": "18.50",
+      "sell": "18.80"
     },
     {
       "currency": "ZAR",
@@ -134,17 +134,17 @@
     },
     {
       "currency": "RUB",
-      "buy": "0.3500",
+      "buy": "0.3600",
       "sell": "0.3900"
     },
     {
       "currency": "SCO",
       "buy": "40.50",
-      "sell": "42.00"
+      "sell": "42.20"
     },
     {
       "currency": "MOP",
-      "buy": "3.92",
+      "buy": "3.95",
       "sell": "4.10"
     },
     {
@@ -154,7 +154,7 @@
     },
     {
       "currency": "TRY",
-      "buy": "0.67",
+      "buy": "0.68",
       "sell": "0.77"
     },
     {

@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-04-20T17:26:41.924Z",
+  "updated_at": "2026-04-21T17:26:16.623Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.03",
-      "sell": "31.93"
+      "buy": "32.00",
+      "sell": "31.90"
     },
     {
       "currency": "EUR",
@@ -14,13 +14,13 @@
     },
     {
       "currency": "GBP",
-      "buy": "43.30",
-      "sell": "43.30"
+      "buy": "43.35",
+      "sell": "43.35"
     },
     {
       "currency": "CHF",
-      "buy": "40.70",
-      "sell": "40.95"
+      "buy": "40.85",
+      "sell": "41.05"
     },
     {
       "currency": "AUD",
@@ -35,7 +35,7 @@
     {
       "currency": "JPY",
       "buy": "0.2015",
-      "sell": "0.2035"
+      "sell": "0.2040"
     },
     {
       "currency": "MYR",
@@ -49,13 +49,13 @@
     },
     {
       "currency": "HKD",
-      "buy": "4.060",
-      "sell": "4.120"
+      "buy": "4.050",
+      "sell": "4.110"
     },
     {
       "currency": "CAD",
-      "buy": "23.20",
-      "sell": "23.45"
+      "buy": "23.25",
+      "sell": "23.50"
     },
     {
       "currency": "TWD",
@@ -74,8 +74,8 @@
     },
     {
       "currency": "NZD",
-      "buy": "18.65",
-      "sell": "18.90"
+      "buy": "18.75",
+      "sell": "19.00"
     },
     {
       "currency": "ZAR",
@@ -89,8 +89,8 @@
     },
     {
       "currency": "INR",
-      "buy": "0.3100",
-      "sell": "0.3500"
+      "buy": "0.3200",
+      "sell": "0.3550"
     },
     {
       "currency": "IDR",
@@ -120,11 +120,11 @@
     {
       "currency": "BHD",
       "buy": "80.00",
-      "sell": "83.20"
+      "sell": "83.10"
     },
     {
       "currency": "KWD",
-      "buy": "96.80",
+      "buy": "97.00",
       "sell": "102.00"
     },
     {
@@ -134,7 +134,7 @@
     },
     {
       "currency": "RUB",
-      "buy": "0.3500",
+      "buy": "0.3550",
       "sell": "0.3950"
     },
     {
@@ -155,7 +155,7 @@
     {
       "currency": "TRY",
       "buy": "0.69",
-      "sell": "0.77"
+      "sell": "0.78"
     },
     {
       "currency": "MMK",

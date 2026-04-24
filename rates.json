@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-04-23T17:34:47.277Z",
+  "updated_at": "2026-04-24T17:23:16.840Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.35",
-      "sell": "32.25"
+      "buy": "32.37",
+      "sell": "32.27"
     },
     {
       "currency": "EUR",
@@ -19,18 +19,18 @@
     },
     {
       "currency": "CHF",
-      "buy": "41.00",
-      "sell": "41.25"
+      "buy": "40.95",
+      "sell": "41.20"
     },
     {
       "currency": "AUD",
-      "buy": "22.95",
-      "sell": "23.20"
+      "buy": "22.90",
+      "sell": "23.15"
     },
     {
       "currency": "CNY",
-      "buy": "4.640",
-      "sell": "4.640"
+      "buy": "4.660",
+      "sell": "4.660"
     },
     {
       "currency": "JPY",
@@ -39,13 +39,13 @@
     },
     {
       "currency": "MYR",
-      "buy": "8.150",
-      "sell": "8.050"
+      "buy": "8.160",
+      "sell": "8.060"
     },
     {
       "currency": "SGD",
-      "buy": "28.25",
-      "sell": "25.40"
+      "buy": "28.30",
+      "sell": "25.45"
     },
     {
       "currency": "HKD",
@@ -54,8 +54,8 @@
     },
     {
       "currency": "CAD",
-      "buy": "23.45",
-      "sell": "23.70"
+      "buy": "23.40",
+      "sell": "23.65"
     },
     {
       "currency": "TWD",
@@ -74,7 +74,7 @@
     },
     {
       "currency": "NZD",
-      "buy": "18.85",
+      "buy": "18.80",
       "sell": "19.05"
     },
     {
@@ -109,13 +109,13 @@
     },
     {
       "currency": "QAR",
-      "buy": "8.15",
+      "buy": "8.25",
       "sell": "8.65"
     },
     {
       "currency": "OMR",
-      "buy": "80.00",
-      "sell": "83.00"
+      "buy": "80.30",
+      "sell": "83.30"
     },
     {
       "currency": "BHD",
@@ -149,13 +149,13 @@
     },
     {
       "currency": "BND",
-      "buy": "24.90",
-      "sell": "25.25"
+      "buy": "25.10",
+      "sell": "25.40"
     },
     {
       "currency": "TRY",
-      "buy": "0.69",
-      "sell": "0.78"
+      "buy": "0.70",
+      "sell": "0.79"
     },
     {
       "currency": "MMK",

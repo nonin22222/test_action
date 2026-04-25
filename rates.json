@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-04-24T17:23:16.840Z",
+  "updated_at": "2026-04-25T17:17:20.904Z",
   "source": "Superrich 1965 (Orange)",
   "data": [
     {
       "currency": "USD",
-      "buy": "32.37",
-      "sell": "32.27"
+      "buy": "32.30",
+      "sell": "32.20"
     },
     {
       "currency": "EUR",
@@ -14,48 +14,48 @@
     },
     {
       "currency": "GBP",
-      "buy": "43.70",
-      "sell": "43.70"
+      "buy": "43.75",
+      "sell": "43.75"
     },
     {
       "currency": "CHF",
-      "buy": "40.95",
-      "sell": "41.20"
+      "buy": "40.85",
+      "sell": "41.15"
     },
     {
       "currency": "AUD",
-      "buy": "22.90",
+      "buy": "22.85",
       "sell": "23.15"
     },
     {
       "currency": "CNY",
-      "buy": "4.660",
-      "sell": "4.660"
+      "buy": "4.640",
+      "sell": "4.640"
     },
     {
       "currency": "JPY",
-      "buy": "0.2020",
+      "buy": "0.2015",
       "sell": "0.2040"
     },
     {
       "currency": "MYR",
-      "buy": "8.160",
-      "sell": "8.060"
+      "buy": "8.150",
+      "sell": "8.050"
     },
     {
       "currency": "SGD",
       "buy": "28.30",
-      "sell": "25.45"
+      "sell": "25.40"
     },
     {
       "currency": "HKD",
-      "buy": "4.090",
+      "buy": "4.060",
       "sell": "4.150"
     },
     {
       "currency": "CAD",
       "buy": "23.40",
-      "sell": "23.65"
+      "sell": "23.70"
     },
     {
       "currency": "TWD",
@@ -64,12 +64,12 @@
     },
     {
       "currency": "KRW",
-      "buy": "0.0223",
-      "sell": "0.0218"
+      "buy": "0.0222",
+      "sell": "0.0217"
     },
     {
       "currency": "PHP",
-      "buy": "0.500",
+      "buy": "0.480",
       "sell": "0.530"
     },
     {
@@ -79,7 +79,7 @@
     },
     {
       "currency": "ZAR",
-      "buy": "1.88",
+      "buy": "1.86",
       "sell": "1.94"
     },
     {
@@ -149,8 +149,8 @@
     },
     {
       "currency": "BND",
-      "buy": "25.10",
-      "sell": "25.40"
+      "buy": "25.05",
+      "sell": "25.35"
     },
     {
       "currency": "TRY",
